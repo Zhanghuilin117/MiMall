@@ -1,6 +1,5 @@
 <template>
   <div>
-    Home
     <nav-header></nav-header>
     <router-view></router-view>
     <nav-footer></nav-footer>
@@ -12,7 +11,7 @@ import NavFooter from "./../components/NavFooter";
 export default {
   components: {
     NavHeader,
-    NavFooter
-  }
+    NavFooter,
+  },
 };
 </script>
