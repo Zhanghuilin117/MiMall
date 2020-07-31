@@ -12,7 +12,7 @@ import navFooter from "./../components/NavFooter";
 export default {
   components: {
     orderHeader,
-    navFooter
-  }
+    navFooter,
+  },
 };
 </script>

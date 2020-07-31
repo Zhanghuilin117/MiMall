@@ -24,15 +24,87 @@
         <div class="header-menu">
           <div class="item-menu">
             <span>小米手机</span>
-            <div class="children"></div>
+            <div class="children">
+              <ul>
+                <li
+                  class="product"
+                  v-for="(item, index) in phoneList"
+                  :key="index"
+                >
+                  <a href="javascript:;" target="_blank">
+                    <div class="pro-img">
+                      <img :src="item.mainImage" :alt="item.subtitle" />
+                    </div>
+                    <div class="pro-name">{{ item.name }}</div>
+                    <div class="pro-price">{{ item.price | currency }}</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="item-menu">
             <span>RedMi红米</span>
-            <div class="children"></div>
           </div>
           <div class="item-menu">
             <span>电视</span>
-            <div class="children"></div>
+            <div class="children">
+              <ul>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-1.jpg" alt="" />
+                    </div>
+                    <div class="pro-name">小米壁画电视 65英寸</div>
+                    <div class="pro-price">6999元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-2.jpg" alt="" />
+                    </div>
+                    <div class="pro-name">小米全面屏电视E55A</div>
+                    <div class="pro-price">1999元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-3.png" alt="" />
+                    </div>
+                    <div class="pro-name">小米电视4A 32英寸</div>
+                    <div class="pro-price">699元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-4.jpg" alt="" />
+                    </div>
+                    <div class="pro-name">小米电视4A 55英寸</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-5.jpg" alt="" />
+                    </div>
+                    <div class="pro-name">小米电视4A 65英寸</div>
+                    <div class="pro-price">2699元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-6.png" alt="" />
+                    </div>
+                    <div class="pro-name">查看全部</div>
+                    <div class="pro-price">查看全部</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="header-search">
@@ -46,11 +118,42 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      username: "jack",
+      phoneList: [],
+    };
+  },
+  filters: {
+    currency(val) {
+      if (!val) return "0.00";
+      return "￥" + val.toFixed(2) + "元";
+    },
+  },
+  mounted() {
+    this.getProductList();
+  },
+  methods: {
+    getProductList() {
+      this.axios
+        .get("/products", {
+          params: {
+            categoryId: "100012",
+            pageSize: 6,
+          },
+        })
+        .then((res) => {
+          this.phoneList = res.list;
+        });
+    },
+  },
+};
 </script>
 <style lang="scss">
 @import "../assets/scss/base.scss";
 @import "../assets/scss/mixin.scss";
+@import "../assets/scss/config.scss";
 .header {
   .nav-topbar {
     height: 39px;
@@ -79,6 +182,7 @@ export default {};
   .nav-header {
     .container {
       height: 112px;
+      position: relative;
       @include flex();
       .header-logo {
         width: 55px;
@@ -114,6 +218,59 @@ export default {};
           margin-right: 20px;
           span {
             cursor: pointer;
+          }
+          &:hover {
+            color: $colorA;
+            .children {
+              height: 220px;
+              opacity: 1;
+            }
+          }
+          .children {
+            width: 1226px;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            top: 112px;
+            left: 0;
+            border-top: 1px solid #e5e5e5;
+            box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
+            z-index: 10;
+            transition: all 0.5s;
+            background-color: #ffffff;
+            .product {
+              float: left;
+              width: 16.6%;
+              height: 220px;
+              font-size: 12px;
+              line-height: 12px;
+              text-align: center;
+              position: relative;
+              &::before:not(:last-child) {
+                content: " ";
+                position: absolute;
+                top: 28px;
+                right: 0;
+                border-left: 1px solid #d7d7d7;
+                height: 100px;
+              }
+              .pro-img {
+                img {
+                  width: auto;
+                  height: 111px;
+                  margin-top: 26px;
+                }
+              }
+              .pro-name {
+                font-weight: bold;
+                margin: 19px auto 8px;
+                color: #333333;
+              }
+              .pro-price {
+                color: $colorA;
+              }
+            }
           }
         }
       }

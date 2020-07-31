@@ -1,6 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import Message from "element-ui";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
@@ -17,17 +18,25 @@ axios.defaults.timeout = 8000;
 // 根据环境变量获取不同的请求地址
 // axios.defaults.baseURL = env.baseURL;
 //接口错误拦截
-// axios.interceptors.request.use(function(responce) {
-//   let res = responce.data;
-//   console.log(res);
-//   if (res.status == 0) {
-//     return res.data;
-//   } else if (res.data == 10) {
-//     window.location.href = "/#/login";
-//   } else {
-//     alert(res.msg);
-//   }
-// });
+axios.interceptors.response.use(
+  function(response) {
+    let res = response.data;
+    if (res.status == 0) {
+      return res.data;
+    } else if (res.status == 10) {
+      window.location.href = "/#/login";
+      return Promise.reject(res);
+    } else {
+      Message.warning(res.msg);
+      return Promise.reject(res);
+    }
+  },
+  (error) => {
+    let res = error.response;
+    Message.error(res.data.message);
+    return Promise.reject(error);
+  }
+);
 
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
