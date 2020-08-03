@@ -5,6 +5,8 @@ import Message from "element-ui";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
+import VueLazyload from "vue-lazyload";
+
 // import env from "./env";
 
 const mock = true;
@@ -39,6 +41,9 @@ axios.interceptors.response.use(
 );
 
 Vue.use(VueAxios, axios);
+Vue.use(VueLazyload, {
+  loading: "/imgs/loading-svg/loading-bars.svg",
+});
 Vue.config.productionTip = false;
 
 new Vue({

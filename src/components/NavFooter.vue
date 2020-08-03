@@ -48,7 +48,7 @@ export default {};
   .footer-link {
     margin-bottom: 13px;
     a {
-      color: #999999;
+      color: $colorD;
     }
     span {
       margin: 0 10px;
@@ -56,7 +56,7 @@ export default {};
   }
   .copyright {
     .domain {
-      color: #ff6600;
+      color: $colorA;
     }
   }
 }
