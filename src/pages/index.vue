@@ -40,13 +40,11 @@
             </li>
           </ul>
         </div>
-        <swiper :options="swiperOptions">
-          <swiper-slide
-            class="swiper-container"
-            v-for="(item, index) in slideList"
-            :key="index"
-            ><a :href="'/#/product/' + item.id"><img v-lazy="item.img"/></a
-          ></swiper-slide>
+        <swiper v-bind:options="swiperOption">
+          <swiper-slide v-for="(item, index) in slideList" :key="index">
+            <a :href="'/#/product/' + item.id"><img :src="item.img"/></a>
+          </swiper-slide>
+          <!-- Optional controls -->
           <div class="swiper-pagination" slot="pagination"></div>
           <div class="swiper-button-prev" slot="button-prev"></div>
           <div class="swiper-button-next" slot="button-next"></div>
@@ -88,7 +86,9 @@
                 <div class="item-info">
                   <h3>{{ sub.name }}</h3>
                   <p>{{ sub.subtitle }}</p>
-                  <p class="price">{{ sub.price }}元</p>
+                  <p class="price" @click="addCart(item.id)">
+                    {{ sub.price }}元
+                  </p>
                 </div>
               </div>
             </div>
@@ -97,10 +97,24 @@
       </div>
     </div>
     <service-bar></service-bar>
+    <modal
+      title="提示"
+      sureText="查看购物车"
+      btnType="1"
+      modalType="middle"
+      :showModal="showModal"
+      @submit="goToCart"
+      @cancel="showModal = false"
+    >
+      <template v-slot:body>
+        <p>商品添加成功！</p>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
 import serviceBar from "../../src/components/ServiceBar";
+import Modal from "./../components/Modal";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
 export default {
@@ -109,13 +123,18 @@ export default {
     swiper,
     swiperSlide,
     serviceBar,
+    Modal,
   },
   data() {
     return {
-      swiperOptions: {
-        loop: true,
+      swiperOption: {
         autoplay: true,
+        loop: true,
         effect: "cube",
+        cubeEffect: {
+          shadowOffset: 100,
+          shadowScale: 0.6,
+        },
         pagination: {
           el: ".swiper-pagination",
           clickable: true,
@@ -195,6 +214,7 @@ export default {
         },
       ],
       phoneList: [],
+      showModal: false,
     };
   },
   mounted() {
@@ -206,12 +226,28 @@ export default {
         .get("/products", {
           params: {
             categoryId: 100012,
-            pageSize: 8,
+            pageSize: 14,
           },
         })
         .then((res) => {
+          res.list = res.list.slice(6, 14);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
         });
+    },
+    addCart() {
+      this.showModal = true;
+      // this.axios
+      //   .post("/carts", {
+      //     productId: id,
+      //     selected: true,
+      //   })
+      //   .then((res) => {
+      //     this.showModal = true;
+      //     this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
+      //   });
+    },
+    goToCart() {
+      this.$router.push("/cart");
     },
   },
 };

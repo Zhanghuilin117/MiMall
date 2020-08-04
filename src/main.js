@@ -1,11 +1,13 @@
 import Vue from "vue";
+import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import Message from "element-ui";
-import App from "./App.vue";
+import VueLazyLoad from "vue-lazyload";
+import VueCookie from "vue-cookie";
+import { Message } from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 import store from "./store";
-import router from "./router";
-import VueLazyload from "vue-lazyload";
+import App from "./App.vue";
 
 // import env from "./env";
 
@@ -41,9 +43,11 @@ axios.interceptors.response.use(
 );
 
 Vue.use(VueAxios, axios);
-Vue.use(VueLazyload, {
+Vue.use(VueCookie);
+Vue.use(VueLazyLoad, {
   loading: "/imgs/loading-svg/loading-bars.svg",
 });
+Vue.prototype.$message = Message;
 Vue.config.productionTip = false;
 
 new Vue({
