@@ -14,26 +14,20 @@ export default {
     };
   },
   mounted() {
-    // this.axios.get("/user/login").then((res) => {
-    //   this.res = res;
-    //   console.log(this.res);
-    // });
-    // storage.getItem("user");
-    // storage.setItem("user", { a: 1 });
-    // storage.setItem("abc", { a: 1 }, "user");
-    // storage.clear("abc", "user");
-    this.getUser();
-    this.getCartCount();
+    if(this.$cookie.get('userId')){
+      this.getUser();
+      this.getCartCount();
+    }
   },
   methods: {
     getUser() {
-      this.axios.get("/user").then((res) => {
-        console.log(res);
+      this.axios.get("/user").then(res=> {
+        this.$store.dispatch("saveUserName", res.username);
       });
     },
     getCartCount() {
-      this.axios.get("/carts/products/sum").then((res) => {
-        console.log(res);
+      this.axios.get("/carts/products/sum").then( res=> {
+        this.$store.dispatch("saveCartCount", res);
       });
     },
   },
