@@ -5,6 +5,7 @@
 </template>
 <script>
 // import storage from "./storage/index";
+import { mapMutations } from "vuex";
 export default {
   name: "app",
   components: {},
@@ -14,22 +15,25 @@ export default {
     };
   },
   mounted() {
-    if(this.$cookie.get('userId')){
+    if (this.$cookie.get("userId")) {
       this.getUser();
       this.getCartCount();
     }
   },
   methods: {
     getUser() {
-      this.axios.get("/user").then(res=> {
+      this.axios.get("/user").then((res = {}) => {
         this.$store.dispatch("saveUserName", res.username);
+        // this.saveUserName(res.name);
       });
     },
     getCartCount() {
-      this.axios.get("/carts/products/sum").then( res=> {
+      this.axios.get("/carts/products/sum").then((res = 0) => {
         this.$store.dispatch("saveCartCount", res);
+        // this.saveCartCount(res);
       });
     },
+    ...mapMutations(["saveUserName", "saveCartCount"]),
   },
 };
 </script>

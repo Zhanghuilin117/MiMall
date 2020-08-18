@@ -11,11 +11,11 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{ username }}</a>
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
-          <a href="javascript:;" v-if="username">退出</a>
+          <a href="javascript:;" v-if="username" @click="logout">退出</a>
           <a href="/#/order/list" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart">
             <span class="icon-cart"></span>
-            购物车({{cartCount}})
+            购物车({{ cartCount }})
           </a>
         </div>
       </div>
@@ -30,7 +30,11 @@
             <span>小米手机</span>
             <div class="children">
               <ul>
-                <li class="product" v-for="(item, index) in phoneList" :key="index">
+                <li
+                  class="product"
+                  v-for="(item, index) in phoneList"
+                  :key="index"
+                >
                   <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
                       <img v-lazy="item.mainImage" :alt="item.subtitle" />
@@ -118,6 +122,7 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -125,12 +130,13 @@ export default {
     };
   },
   computed: {
-    username() {
-      return this.$store.state.username;
-    },
-    cartCount() {
-      return this.$store.state.cartCount;
-    },
+    // username() {
+    //   return this.$store.state.username;
+    // },
+    // cartCount() {
+    //   return this.$store.state.cartCount;
+    // },
+    ...mapState(["username", "cartCount"]),
   },
   filters: {
     currency(val) {
@@ -151,10 +157,11 @@ export default {
     },
     getCartCount() {
       this.axios.get("/carts/products/sum").then((res = 0) => {
-        console.log(res);
-        this.$store.dispatch("saveCartCount", res);
+        // this.$store.dispatch("saveCartCount", res);
+        this.saveCartCount(res);
       });
     },
+    ...mapMutations(["saveCartCount"]),
     getProductList() {
       this.axios
         .get("/products", {
@@ -169,6 +176,14 @@ export default {
     },
     goToCart() {
       this.$router.push("/cart");
+    },
+    logout() {
+      this.axios.post("/user/logout").then(() => {
+        this.$message.success("退出成功");
+        this.$cookie.set("userId", "", { expires: "-1" });
+        this.$store.dispatch("saveUserName", "");
+        this.$store.dispatch("saveCartCount", "0");
+      });
     },
   },
 };
