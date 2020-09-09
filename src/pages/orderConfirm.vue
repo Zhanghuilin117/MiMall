@@ -254,7 +254,6 @@ export default {
     getAddressList() {
       this.axios.get("/shippings").then((res) => {
         this.addressList = res.list;
-        console.log(this.addressList);
       });
     },
     getCartList() {

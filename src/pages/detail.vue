@@ -133,7 +133,7 @@ export default {
     swiperSlide,
     ProductParam,
     ServiceBar,
-    Modal
+    Modal,
   },
   mounted() {
     this.getProductInfo();

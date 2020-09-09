@@ -14,12 +14,16 @@
             <span>扫码登录</span>
           </h3>
           <div class="input">
-            <input type="text" placeholder="请输入帐号" v-model="username" />
+            <input
+              type="text"
+              placeholder="请输入帐号（jack）"
+              v-model="username"
+            />
           </div>
           <div class="input">
             <input
               type="password"
-              placeholder="请输入密码"
+              placeholder="请输入密码（jack）"
               v-model="password"
             />
           </div>
@@ -38,25 +42,18 @@
     </div>
     <div class="footer">
       <div class="footer-link">
-        <a href="https://www.imooc.com/u/1343480" target="_blank"
-          >河畔一角主页</a
-        >
-        <span>|</span>
-        <a href="https://coding.imooc.com/class/113.html" target="_blank"
-          >Vue全栈课程</a
-        >
-        <span>|</span>
+        <a href="https://www.barbili.com" target="_blank">博客主页</a
+        ><span>|</span>
         <a href="https://coding.imooc.com/class/236.html" target="_blank"
-          >React全家桶课程</a
-        >
-        <span>|</span>
-        <a href="https://coding.imooc.com/class/343.html" target="_blank"
-          >微信支付专项课程（H5+小程序/云+Node+MongoDB）</a
-        >
+          >智能小派家居控制终端（微信搜索）</a
+        ><span>|</span>
+        <a href="#" target="_blank">懂你找图吧小程序（微信搜索）</a>
       </div>
-      <p class="copyright">
-        Copyright ©2019 mi.futurefe.com All Rights Reserved.
-      </p>
+      <div class="copyright">
+        Copyright ©2020
+        <a class="domain" href="http://mi.barbili.com/">mi.barbili.com</a> All
+        Rights Reserved.
+      </div>
     </div>
   </div>
 </template>
