@@ -7,7 +7,7 @@
     <div class="footer-link">
       <a href="https://www.barbili.com" target="_blank">博客主页</a
       ><span>|</span>
-      <a href="https://coding.imooc.com/class/236.html" target="_blank"
+      <a href="#" target="_blank"
         >智能小派家居控制终端（微信搜索）</a
       ><span>|</span>
       <a href="#" target="_blank">懂你找图吧小程序（微信搜索）</a
